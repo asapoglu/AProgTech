@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)https://blm-fsmvu.github.io/305/work/Counting.html -->
+<html lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" href="https://blm-fsmvu.github.io/305/images/icon192.png">
+    <title>Deneme </title>
+
+  <style> /* CSS comment */
+    body { max-width: 440px; }
+    #inp { width: 50px }
+    #out {
+        font-size: 18px;
+        background: blue;
+        color: white;
+        text-align: center;
+        padding: 10px;
+    }
+  </style>
+</head>
+
+<body>   <!-- HTML comment: Modify all items marked xxx -->
+
+<h2 id="title">Inc</h2>
+Inc
+<input type="number" id="inc" value="0" onchange="cmF">
+
+<h2 id="title">Cm</h2>
+Cm 
+<input type="number" id="cm" value="0" onchange="incF">
+
+<hr>
+
+<script>
+"use strict";
+// JavaScript comment
+function cmF() {
+    let c = Number(inc.value);
+	c = (c *(2.54)).toFixed(1);
+	cm.value = c;
+}
+function incF() {
+    let b = Number(cm.value);
+	b = (b / (2.54)).toFixed(1);
+	inc.value = b;
+}
+</script>
+
+
+
+</body></html>
