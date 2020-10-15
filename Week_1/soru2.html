@@ -23,26 +23,26 @@
 
 <h2 id="title">Inc</h2>
 Inc
-<input type="number" id="inc" value="0" onchange="cmF">
+<input type=number id=first value="firstText" onchange="toCm()">
 
 <h2 id="title">Cm</h2>
 Cm 
-<input type="number" id="cm" value="0" onchange="incF">
+<input type=number id=second value="secondText" onchange="toInch()">
 
 <hr>
 
 <script>
 "use strict";
 // JavaScript comment
-function cmF() {
-    let c = Number(inc.value);
+function toCm() {
+    let c = Number(first.value);
 	c = (c *(2.54)).toFixed(1);
-	cm.value = c;
+	second.value = c;
 }
-function incF() {
-    let b = Number(cm.value);
+function toInch() {
+    let b = Number(second.value);
 	b = (b / (2.54)).toFixed(1);
-	inc.value = b;
+	first.value = b;
 }
 </script>
 
