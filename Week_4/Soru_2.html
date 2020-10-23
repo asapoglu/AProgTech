@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)https://blm-fsmvu.github.io/305/work/Counting.html -->
+<html lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" href="https://blm-fsmvu.github.io/305/images/icon192.png">
+    <title>Deneme </title>
+
+  <style> /* CSS comment */
+    body { max-width: 440px; }
+    #inp { width: 50px }
+    #out {
+        font-size: 18px;
+        background: blue;
+        color: white;
+        text-align: center;
+        padding: 10px;
+    }
+  </style>
+</head>
+
+<body>   <!-- HTML comment: Modify all items marked xxx -->
+
+<h2 id="title">Inc</h2>
+Inc
+<input type=number id=first value="firstText" onchange="toCm()">
+
+<h2 id="title">Cm</h2>
+Cm 
+<input type=number id=second value="secondText" onchange="toInch()">
+<hr />
+<b>Sample code</b>
+<pre id=sample>This text is not shown. Why?</pre>
+
+<hr>
+
+<script>
+"use strict";
+// JavaScript comment
+function toCm() {
+  let c = Number(first.value)
+  let x = new Convert(c)
+  second.value = x.inch;
+}
+function toInch() {
+  let c = Number(second.value)
+  let x = new Convert()
+  x.inch = c;
+  first.value = x.cm
+}
+
+
+class Convert {
+  constructor(cm=0) {
+    this.cm = cm.toFixed(2);
+  }
+  
+  set inch(x=0) {
+    let c = x / 2.54
+    this.cm = c.toFixed(2);
+  }
+  
+  get inch() {
+    let x = this.cm * 2.54;
+    return x.toFixed(2);
+  }
+  static fromInch(x) {
+    let c = new Convert();
+    c.inch = x;
+    return c;
+  }
+}
+sample.innerText = Convert.toString()+"\n\n"+toCm.toString()+"\n"+toInch.toString();
+    docName.innerText = "Inspector "+VERSION;
+    try {
+        inspect(sss, init); //makes the table
+        inp.value = "new Date()";
+    } catch(e) {
+        reportError(e);
+    }
+</script>
+</body>
+</html>
