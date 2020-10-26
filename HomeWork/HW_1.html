@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+  <meta name="viewport" content="width=device-width">
+  <link rel="icon" sizes="192x192" href="https://avatars2.githubusercontent.com/u/72756431?s=48&v=4">
+  <title>Poisson Table</title>
+
+  <style>
+    body {
+      max-width: 440px;
+    }
+
+    #sample {
+      overflow-x: auto;
+    }
+
+    table {
+      border-collapse: collapse;
+    }
+
+    th {
+      color: darkorange;
+      padding: 5px 5px;
+    }
+
+    td {
+      border: 1px solid crimson;
+      padding: 5px 5px;
+      text-align: center;
+      position: relative;
+    }
+
+    td:hover .tip {
+      visibility: visible;
+    }
+
+    td .tip {
+      visibility: hidden;
+      font-size: small;
+      background-color: crimson;
+      color: white;
+      text-align: center;
+      padding: 5px 5px;
+      position: absolute;
+      left: 5px;
+      top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <center>
+
+    <h2 id="title">Possion Table</h2>
+
+    <hr>
+    <table id="tablo">
+      <tbody>
+        <tr>
+          <th></th>
+          <th>1</th>
+          <th>2</th>
+          <th>3</th>
+          <th>4</th>
+          <th>5</th>
+        </tr>
+        <tr>
+          <th>1</th>
+          <td>1,1<span class="tip">C1</span></td>
+          <td>1,2<span class="tip">C2</span></td>
+          <td>1,3<span class="tip">C3</span></td>
+          <td>1,4<span class="tip">C4</span></td>
+          <td>1,5<span class="tip">C5</span></td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td>2,1<span class="tip">C6</span></td>
+          <td>2,2<span class="tip">C7</span></td>
+          <td>2,3<span class="tip">C8</span></td>
+          <td>2,4<span class="tip">C9</span></td>
+          <td>2,5<span class="tip">C10</span></td>
+        </tr>
+        <tr>
+          <th>3</th>
+          <td>3,1<span class="tip">C11</span></td>
+          <td>3,2<span class="tip">C12</span></td>
+          <td>3,3<span class="tip">C13</span></td>
+          <td>3,4<span class="tip">C14</span></td>
+          <td>3,5<span class="tip">C15</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <hr>
+
+
+  </center>
+
+  <hr />
+  <b>Sample code</b>
+  <pre id=sample>This text is not shown. Why?</pre>
+  
+  <hr>
+
+  <script>
+    "use strict";
+    function makeRows(m, n) {
+      const L = [0.5, 1, 1.5, 2, 2.5, 3]
+      let p = []; for (let λ of L) p.push(Math.exp(-λ))
+      let row = "<th></th>";
+      for (let j = 0.5; j <= 3; j += 0.5)
+        row += "<th>" + "λ=" + j + "</th>";
+      let text = "<tr>" + row + "</tr>";
+
+      row = "<th>" + "x=" + 0 + "</th>";
+      for (let j = 0; j < n; j++) {
+        let s = p[j];
+        s = s.toFixed(4);
+        p[j] = s;
+        row += "<td>" + p[j] + "</td>";
+      }
+      text += "<tr>" + row + "</tr>";
+
+      for (let i = 1; i < m; i++) {
+        row = "<th>" + "x=" + i + "</th>";
+        for (let j = 0; j < n; j++) {
+          let s = (p[j] * L[j]) / i;
+          s = s.toFixed(4);
+          p[j] = s;
+          row += "<td>" + s + "</td>";
+        }
+        text += "<tr>" + row + "</tr>";
+      }
+      let t = "";
+      console.log("makeRows: " + m + "x" + n + " " + t);
+      tablo.innerHTML = text; out.innerText = t;
+    }
+    function tableFromMenu() {
+      let [r, c] = size.value.split("x");
+      makeRows(9,6); //a[0], a[1]
+      rows.value = r;
+      cols.value = c;
+    }
+    function tableFromInput() {
+      let r = rows.value;
+      let c = cols.value;
+      makeRows(9,6);
+      size.value = r + "x" + c;
+    }
+    sample.innerText = makeRows.toString()+"\n\n"+tableFromMenu.toString()+"\n\n"+tableFromInput.toString();
+    makeRows(9,6);
+    
+    try {
+        inspect(sss, init); //makes the table
+        inp.value = "new Date()";
+    } catch(e) {
+        reportError(e);
+    }
+</script>
+</body>
+
+</html>
