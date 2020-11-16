@@ -110,8 +110,8 @@ class Database {
     let list = ""
     for (let c of stu.courses) {
       let course = this.course_map.get(c)
-      console.log(course)
-      list+= (course.name)+" "+(course.date)+" "+ course.time +", ";
+      console.log(course.name+" "+course.date+" "+ course.time);
+      //list+= (course.name)+" "+(course.date)+" "+ course.time +", ";
     }
     return list;
   }
@@ -150,7 +150,8 @@ class Database {
     var list = [];
     for(let c of this.course_map.values()) {
       if(c.rooms.includes(key)){
-        list.push(c.name);
+        list.push(c.name + c.id);
+        
       }
     }
     console.log(list);

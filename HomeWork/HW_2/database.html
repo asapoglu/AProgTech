@@ -1,81 +1,289 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <script type="text/javascript" src="database.js"></script>
-    <style media="screen">
-      .a {
-        padding-top: 5px;
-      }
-    </style>
-  </head>
-  <body>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" href="https://avatars2.githubusercontent.com/u/72756431?s=48&v=4">
+    <title>Student Database </title>
+
+  <style>
+    body { max-width: 440px; }
+    .link {
+        color: salmon;
+        cursor: pointer;
+        font-style: italic;
+    }
+    .liste {
+        visibility: hidden;
+        font: 11px arial, sans-serif;
+        color: white;
+        background: salmon;
+        cursor: text;
+        padding: 6px;
+        position: absolute;
+        height: 116px;
+        overflow-y: auto;
+    }
+    .link:hover .liste { 
+        visibility: visible; 
+    }
+  </style>
+</head>
+
+<body>
+
+<h2 id="title">Student Database</h2>
+
+<button onclick="randomStd()">Random Student</button>
+<button onclick="randomRoom()">Random Room</button>
+<button onclick="randomCourse()">Random Course</button>
+<br></br>
+<button onclick="getZeroStudentCourse()">Zero Student Course</button>
+<button onclick="compareAlg()">Compare Two Method</button>
+<button onclick="out.innerText=&quot;&quot;">Clear</button>
+<p>Get Student Schedule<br>
+<input id="stuID_Schedule" type="text"><button onclick="GetSchedule()">Search</button>
+</p>
+<p>Get Course Student List<br>
+<input id="getCourseStudentList" type="text"><button onclick="GetCourseStudentList()">Search</button>
+</p>
+<p>Get Room Course List<br>
+    <input id="getRoomCourseList" type="text"><button onclick="GetRoomCourseList()">Search</button>
+</p>
+<p>Get Course Total Student<br>
+    <input id="getTotalStudent" type="text"><button onclick="GetTotalStudent()">Search</button>
+</p>
+
+</p>
+<p id="out" onclick=null> Result: <br>
+</p>
+
+<hr>
+<b>Sample code</b>
+<pre id="sample">class Course { //implement this<br>    constructor( ) {<br>    }<br>    toString() {<br>        return ''<br>    }<br>    static fromString(s) {<br>        return null<br>    }<br>}<br>function readCourses() {<br>    fetch(LINK+"Courses.txt").then(r =&gt; r.text())<br>    //.then( Implement this )<br>}<br>function findBest() { //the best gpa in stdMap<br>    report("Implement this");<br>}</pre>
+<hr>
+
+<script>
+"use strict";
+class Student {
+    constructor(id, name, gpa, ...list) {
+        if (!id) throw "Undefined Student id"
+        this.id = id; this.name = name;
+        this.gpa = gpa.padEnd(4,'0'); 
+        this.list = list
+    }
+    toString() {
+        return this.id+' '+this.name+' '+this.gpa
+    }
+    static fromString(s) {
+        return new Student(...s.split('\t'))
+    }
+}
+class Course { //implement this
+    constructor(id,clock,date,rooms, ...list){
+        this.id=id;
+        this.clock=clock;
+        this.date=date;
+        this.rooms = rooms;
+        this.list=list;
+    }
+	toString(){
+		return this.id + " " + this.clock + " " + this.date + " " + this.list;
+	}
+    static fromString(s) {
+        return new Course(...s.split('\t'))
+    }
+}
+function GetSchedule(){
+    
+    let value = stdMap.get(document.getElementById("stuID_Schedule").value);
+    report("<hr>");
+    for (let c of value.list) {
+      let temp = crsMap.get(c);
+      report(temp.id+" "+temp.date+" "+temp.clock)
+    }
+    report("</hr>");
+}
+function GetCourseStudentList(){
+    let value = document.getElementById("getCourseStudentList").value;
+    report("<hr>");
+    for (let c of stdMap.values()) {
+        if(c.list.includes(value)){
+            
+            report(c.id+" "+c.name);
+            
+        }      
+    }
+    report("</hr>");
+}
+function GetRoomCourseList(){
+    let value = document.getElementById("getRoomCourseList").value;
+    report("<hr>");
+    for(let c of crsMap.values()){
+        if(c.rooms.includes(value)) {
+            
+            report(c.id +"         " +c.date +"         "+c.clock);
+            
+        }
+    }
+    report("</hr>");
+}
+function GetTotalStudent(){
+    let value = document.getElementById("getCourseStudentList").value;
+    let total = 0;
+    for (let c of stdMap.values()) {
+        if(c.list.includes(value)){
+            total++;
+        }      
+    }
+    report("<hr>");
+    report("Total Student : " +total);
+    report("</hr>");
+}
+function getZeroStudentCourse(){
+    report("<hr>");
+    for(let t of crsMap.values()){
+        let value = t.id;
+        let total = 0;
+        report(t.id);
+        for (let c of stdMap.values()) {
+            if(c.list.includes(value)){
+                total++;
+            }      
+    
+        }
+        if(total==0){
+            
+            report(t.id);
+            
+        }
+    }
+    report("</hr>");
+}
+
+function compareAlg(){
+    let id = 173829400;
+	let time1 = 0;
+    let time2 = 0;
+	let ids = []; 
+    for (let s of stdMap) {
+        ids.push(s[0])
+    }
+    let hasTime =  Date.now();
+    for (let i=id; i<id+10000; i++) {
+        if(stdMap.has(i.toString())){
+            time1+=1;
+        }
+    }
+    hasTime =  Date.now() - hasTime;
+    let incTime = Date.now()
+    for (let i=id; i<id+10000; i++) {
+        if(ids.includes(i.toString())){
+            time2+=1;
+        }
+    }
+    incTime =  Date.now() - incTime;
+	report("<hr>");
+    report("Has Result : "+time1)
+    report("İnclude Result : "+time2)
+    report("Has Time : "+hasTime)
+    report("İnclude Time : "+incTime)
+	report("</hr>");
+}
+
+function report(msg, id, list){
+    msg += " "; let txt = "<br>\n"+msg;
+    if (id) {
+        msg += id; txt += "<span class=link>"+id
+        if (list)  txt += "<span class=liste>"
+                    +list.join("<br>")+"</span>"
+        txt += "</span>"
+    }
+    console.log(msg); out.innerHTML += txt; 
+}
+const stdMap = new Map(), crsMap = new Map(); //global
+function makeData(txt, Maker, map) {
+    map.clear()
+    for (let line of txt.split('\n')) {
+        if (!line) continue
+        let std = Maker.fromString(line)
+        map.set(std.id, std)
+    }
+    //report(map.size+" items");
+    return map;
+}
+function doClick(evt) {
+    let s = evt.target.innerText;
+    //if s contains only digits
+    if (/^\d+$/.test(s)) showStudent(s); 
+}
+function showStudent(id) {
+    let std = stdMap.get(id);
+    if (!std) return report(id+" not found");
+    let t = std.toString()
+    report(t, "("+std.list.length+" courses)", std.list);
+    return std
+}
+function showCourse(id) {
+    id = id.toUpperCase();
+    let a = [];
+    for (let std of crsMap.values()) 
+        if (std.list.includes(id)) 
+            a.push(std.id+" "+std.name);
+            report("Saat : " + crsMap.get(id).time)
+		    report("Tarih : " +  crsMap.get(id).date)
+    if (a.length > 0)
+        report(id+": ", a.length+" students", a);
+    else report("No students in "+id);
+    return a
+}
+function randomStd() {
+    let keys = [...stdMap.keys()] 
+    console.assert(keys.length == stdMap.size)
+    let i = Math.trunc(keys.length * Math.random());
+    let b = stdMap.get(keys[i]);
+    document.getElementById("stuID_Schedule").value = b.id;
+}
+function randomRoom() {
+    let keys = [...crsMap.keys()]
+    console.assert(keys.length == crsMap.size)
+    let i = Math.trunc(keys.length * Math.random());
+    let b = crsMap.get(keys[i]);
+    document.getElementById("getRoomCourseList").value = b.rooms;
+    return b
+}
+function randomCourse(){
+    let keys = [...crsMap.keys()]
+    console.assert(keys.length == crsMap.size)
+    let i = Math.trunc(keys.length * Math.random());
+    let b = crsMap.get(keys[i]);
+    document.getElementById("getCourseStudentList").value = b.id;
+    document.getElementById("getTotalStudent").value = b.id;
+    
+    return b
+    
+}
+function findBest() { //the best gpa in stdMap
+    let bestgGpa = 0 
+    for (let b of stdMap.values()){
+        if(b.gpa > bestgGpa){
+            bestgGpa = b.gpa
+        }
+    }
+    report(bestgGpa);
+}
+const LINK = "https://maeyler.github.io/JS/data/"
+function readStudents() {
+    fetch(LINK+"Students.txt").then(r => r.text())
+    .then(t => makeData(t, Student, stdMap))
+}
+function readCourses() {
+    fetch(LINK+"Courses.txt").then(r => r.text())
+    .then(t => makeData(t,Course,crsMap))
+}
+title.innerText = document.title
+sample.innerText = GetSchedule + "\n" + GetCourseStudentList + "\n" + GetRoomCourseList + "\n" + GetCourseStudentList+ "\n" +GetTotalStudent+ "\n" +getZeroStudentCourse+ "\n" + compareAlg
+readStudents(); readCourses();
+</script>
 
 
-    <div class="">
-      <h1>Database Sample</h1>
-      <div class="a">
-        Student ID:
-        <input type=text   id=stu_key style="width:99px">
-        <br> <br>
-        <input type=button value="Search" onClick="find()">
-        <input
-        type=button
-        value="Get courses of the student"
-        onClick="getStuCourses()">
-        <input
-        type=button
-        value="Get schedule of the student"
-        onClick="getStuSchedule()">
-
-        <p id="DisplayStu"></p>
-        <p id="StuCourses"></p>
-        <p id="StuSchedule"></p>
-      </div>
-      <div class="a">
-	Random Session<br><br>
-          <input type=button value="Random Student" onClick="random()">
-          <input type=button value="Random Room" onClick="randomRoom()">
-          <p id="RandomStu"></p>
-          <p id="RandomRoom"></p>
-      </div>
-      <div class="a">
-        Enter GPA:
-        <input type=number   id=gpa_key style="width:99px">
-	<br><br>
-        <input
-        type=button
-        value="Number of students above a given GPA "
-         onClick="numberGPA()">
-         <p id="DPAID"></p>
-      </div>
-      <div class="a">
-        Course Code:
-        <input type= text id=course_key style="width:99px">
-	<br><br>        
-	<input
-        type=button
-        value="Student list of given course"
-         onClick="stuListOfCourse()">
-         <p id="StuList"></p>
-      </div>
-      <div class="a">
-        Room Code:
-        <input type= text id=room_key style="width:99px">
-        <br><br>
-        <input
-        type=button
-        value="Course list of given room"
-         onClick="crsListOfRoom()">
-         <input
-         type=button
-         value="Total number of courses in given room"
-          onClick="crsNumbrOfRoom()">
-          <p id="crsList"></p>
-          <p id="numberRoom"></p>
-      </div>
-    </div>
-  </body>
-</html>
+</body></html>
