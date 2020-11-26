@@ -19,12 +19,16 @@ const TITLE = "Counter",
 
 
 function makePage() {
+
+
   let bold = elt("b", "Sample code")
   let pre  = elt("pre", makePage)
   let link = elt("a", "JS Tutorial")
   let initial =  "Inıtıal   ";
   let bosluk = "  ";
   let input = elt("input")
+  let p= elt('p','one'); p.lang ='en'; p.id = 'two'
+  let i = elt('img'); i.src = 'four.jpg'; i.alt = 'four'
   input.id = "inp"
   input.type="number"
   input.value = 0
@@ -50,6 +54,8 @@ function makePage() {
       elt("hr"),
 	  
     )
+
+  document.body.append(elt('div', 'image', i,p))
   document.body.style.maxWidth = "420px"
 }
 const tree = [], SPACE = '&emsp;', MAX = 26;
