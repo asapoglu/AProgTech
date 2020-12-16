@@ -3,10 +3,13 @@
     "short_name": "AProgLang",
     "start_url": "index.html",
     "display": "standalone",
-    "background_color": "navy",
-    "icons": [{
-        "src": "im.jpg",
+    "background_color": "orange",
+    "theme-color": "orange",
+    "icons": [
+      {
+        "src": "im.png",
         "sizes": "192x192",
-        "type": "image/jpg"
-    }]
-}
+        "type": "image/png"
+      }
+    ]
+  }
