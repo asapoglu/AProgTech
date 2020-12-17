@@ -10,6 +10,7 @@ h3 {
 }
 header {
     height: 60px;
+    
     display: flex;
     color: rgb(211, 214, 51);
     text-align: center;
@@ -26,13 +27,14 @@ header img {
     float: left;
 }
 header h3 {
+    
     float: left;
     padding: 5px 0;
     font-size: 17px;
     margin-left: 15px;
 }
 .container {
-    width: 400px;
+    width: fit-content;
     margin: 0 auto;
     height: inherit;
 }
