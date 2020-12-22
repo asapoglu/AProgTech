@@ -1,59 +1,163 @@
 <!DOCTYPE html>
-<!-- saved from url=(0047)https://blm-fsmvu.github.io/305/work/Files.html -->
-<html lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <meta name="viewport" content="width=device-width">
     <link rel="icon" href="https://avatars2.githubusercontent.com/u/72756431?s=48&v=4">
-    <title>Remote and Local Files </title>
-    <style>
-        body { max-width: 500px; }
-        #remote { width: 90%; }
-    </style>
+    <title>Student Database </title>
+
+  <style>
+    body { max-width: 440px; }
+    .link {
+        color: salmon;
+        cursor: pointer;
+        font-style: italic;
+    }
+    .liste {
+        visibility: hidden;
+        font: 11px arial, sans-serif;
+        color: white;
+        background: salmon;
+        cursor: text;
+        padding: 6px;
+        position: absolute;
+        height: 116px;
+        overflow-y: auto;
+    }
+    .link:hover .liste { 
+        visibility: visible; 
+    }
+  </style>
 </head>
 
 <body>
-<p><b id="docName">Remote and Local Files</b> &nbsp; <a href="https://blm-fsmvu.github.io/305/work/Reading_files">Reference</a>
+
+<h2 id="title">Student Database</h2>
+
+<button onclick="randomStd()">Random</button>
+<button onclick="findBest()">Best GPA</button>
+<button onclick="out.innerText=&quot;&quot;">Clear</button>
+
+<p>Student id: 
+<input type="number" onchange="showStudent(value)">
 </p>
-<p>Remote file <br>
-  <input type="text" id="remote" size="35" value="https://asapoglu.github.io/AProgTech/ClassWork/Lab_5/soru.png">
+<p>Course id: 
+<input type="text" onchange="showCourse(value)" value="math 206 ">
 </p>
-<p><input type="file" id="local" multiple="" onchange="fileSelect()"></p>  
-<pre id="out"></pre>
-<hr />
+<p id="out" onclick="doClick(event)">Result:<br>
+3128 items </p>
+
+<hr>
 <b>Sample code</b>
-<pre id=sample></pre>
+<pre id="sample">class Course { //implement this<br>    constructor( ) {<br>    }<br>    toString() {<br>        return ''<br>    }<br>    static fromString(s) {<br>        return null<br>    }<br>}<br>function readCourses() {<br>    fetch(LINK+"Courses.txt").then(r =&gt; r.text())<br>    //.then( Implement this )<br>}<br>function findBest() { //the best gpa in stdMap<br>    report("Implement this");<br>}</pre>
+<hr>
 
 <script>
 "use strict";
-function fileSelect() {
-    fetch(remote.value).then(r => r.blob())
-    .then(checkFiles) //called with Blob b
+class Student {
+    constructor(id, name, gpa, ...list) {
+        if (!id) throw "Undefined Student id"
+        this.id = id; this.name = name;
+        this.gpa = gpa.padEnd(4,'0'); 
+        this.list = list
+    }
+    toString() {
+        return this.id+' '+this.name+' '+this.gpa
+    }
+    static fromString(s) {
+        return new Student(...s.split('\t'))
+    }
 }
-function checkFiles(b) {
-    let a = [...local.files]
-	let t ="";
-    //Implement this
-	let x = remote.value.split("/");
-	let q = x[x.length-1];
-	let equal_files = [];
-	for(let yerel of a){
-		if(yerel.size == b.size && yerel.type == b.type){
-			equal_files.push(yerel);
-		}
+class Course { //implement this
+    constructor(id,clock,date, ...list){
+        this.id=id;
+        this.clock=clock;
+        this.date=date;
+        this.list=list;
+    }
+	toString(){
+		return this.id + " " + this.clock + " " + this.date + " " + this.list;
 	}
-	if(equal_files.length == 0){
-		out.innerText = "Result: "+a.length+" check, all files are different";
-	}
-	else{
-		for(item in equal_files){
-		t += "Result: "+a.length+" check, "+item.name+" is the same as "+q+" \n";
-		}	
-		out.innerText = t;
-	}
+    static fromString(s) {
+        return new Course(...s.split('\t'))
+    }
 }
-const L = console.log
-docName.innerText = document.title
-sample.innerText = fileSelect+"\n"+checkFiles
+
+function report(msg, id, list) {
+    msg += " "; let txt = "<br>\n"+msg;
+    if (id) {
+        msg += id; txt += "<span class=link>"+id
+        if (list)  txt += "<span class=liste>"
+                    +list.join("<br>")+"</span>"
+        txt += "</span>"
+    }
+    console.log(msg); out.innerHTML += txt; 
+}
+const stdMap = new Map(), crsMap = new Map(); //global
+function makeData(txt, Maker, map) {
+    map.clear()
+    for (let line of txt.split('\n')) {
+        if (!line) continue
+        let std = Maker.fromString(line)
+        map.set(std.id, std)
+    }
+    report(map.size+" items");
+    return map;
+}
+function doClick(evt) {
+    let s = evt.target.innerText;
+    //if s contains only digits
+    if (/^\d+$/.test(s)) showStudent(s); 
+}
+function showStudent(id) {
+    let std = stdMap.get(id);
+    if (!std) return report(id+" not found");
+    let t = std.toString()
+    report(t, "("+std.list.length+" courses)", std.list);
+    return std
+}
+function showCourse(id) {
+    id = id.toUpperCase();
+    let a = [];
+    for (let std of crsMap.values()) 
+        if (std.list.includes(id)) 
+            a.push(std.id+" "+std.name);
+            report("Saat : " + crsMap.get(id).time)
+		    report("Tarih : " +  crsMap.get(id).date)
+    if (a.length > 0)
+        report(id+": ", a.length+" students", a);
+    else report("No students in "+id);
+    return a
+}
+function randomStd() {
+    let keys = [...stdMap.keys()]  //Iterable
+    console.assert(keys.length == stdMap.size)
+    let i = Math.trunc(keys.length * Math.random());
+    let b = stdMap.get(keys[i]);
+    report("Random: ", b.id);
+    return b
+}
+function findBest() { //the best gpa in stdMap
+    let bestgGpa = 0 
+    for (let b of stdMap.values()){
+        if(b.gpa > bestgGpa){
+            bestgGpa = b.gpa
+        }
+    }
+    report(bestgGpa);
+}
+const LINK = "https://maeyler.github.io/JS/data/"
+function readStudents() {
+    fetch(LINK+"Students.txt").then(r => r.text())
+    .then(t => makeData(t, Student, stdMap))
+}
+function readCourses() {
+    fetch(LINK+"Courses.txt").then(r => r.text())
+    .then(t => makeData(t,Course,crsMap))
+}
+title.innerText = document.title
+sample.innerText = Course+"\n"+readCourses+"\n"+findBest
+readStudents(); readCourses();
 </script>
-</body>
-</html>
+
+
+</body></html>
