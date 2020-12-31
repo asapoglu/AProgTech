@@ -1,4 +1,3 @@
-// creating an array and passing the number, questions, options, and answers
 let questions = [
     {
     question: "Kendinizi başka kişilere tanıtmayı zor buluyorsunuz",
@@ -11,7 +10,7 @@ let questions = [
     ]
   },
     {
-    question: "Çoğunlukla düşüncelerinizde öyle kayboluyorsunuz ki, etrafınızdakileri görmezden geliyor veya unutuyorsunuz",
+    question: "Ev ve iş ortamlarınız oldukça düzenli",
     options: [
       "-2",
       "-1",
@@ -21,7 +20,7 @@ let questions = [
     ]
   },
     {
-    question: "E-postalarınıza mümkün olduğu kadar çabuk yanıt vermeye çalışıyor ve dağınık bir gelen kutusuna tahammül edemiyorsunuz",
+    question: "İlgi merkezi olmaktan çekinmiyorsunuz",
     options: [
       "-2",
       "-1",
@@ -31,7 +30,7 @@ let questions = [
     ]
   },
     {
-    question: "Biraz baskı olan durumlarda bile, kolay şekilde rahat ve odaklı kalabiliyorsunuz",
+    question: "İnsanlar sizi nadiren üzebilir",
     options: [
       "-2",
       "-1",
