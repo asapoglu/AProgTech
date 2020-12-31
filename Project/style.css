@@ -249,7 +249,7 @@ footer button.show{
 .result_box{
 
     
-    width: 400px;
+    width: fit-content;
     background: #f7e7cb;
     border-radius: 30px;
     display: flex;
