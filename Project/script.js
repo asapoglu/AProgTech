@@ -13,7 +13,6 @@ const restart_btn = result_box.querySelector(".buttons .restart");
 
 info_box.classList.add("activeInfo");
 let tickIconTag = '<div class="icon tick"><i class="fas fa-check"></i></div>';
-let crossIconTag = '<div class="icon cross"><i class="fas fa-times"></i></div>';
 let que_count = 0;
 let userScore = 0;
 let que_numb = 1;
@@ -104,7 +103,6 @@ function showQuetions(index){
 }
 function optionSelected(answer){
     let userAns = answer.textContent;
-    let correcAns = questions[que_count].answer;
     const allOptions = option_list.children.length;
     
         userScore += parseInt(userAns);
